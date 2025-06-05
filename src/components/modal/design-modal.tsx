@@ -1,3 +1,4 @@
+
 "use client";
 
 import type { Design } from '@/types/design';
@@ -8,6 +9,7 @@ import { AIPaletteSuggester } from '@/components/ai/ai-palette-suggester';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Badge } from '@/components/ui/badge';
 import { CalendarDays, FileText } from 'lucide-react';
+import { useState, useEffect } from 'react';
 
 interface DesignModalProps {
   design: Design | null;
@@ -16,6 +18,14 @@ interface DesignModalProps {
 }
 
 export function DesignModal({ design, isOpen, onClose }: DesignModalProps) {
+  const [formattedUploadDate, setFormattedUploadDate] = useState<string>('');
+
+  useEffect(() => {
+    if (design) {
+      setFormattedUploadDate(new Date(design.uploadDate).toLocaleDateString());
+    }
+  }, [design]);
+
   if (!design) return null;
 
   return (
@@ -25,7 +35,11 @@ export function DesignModal({ design, isOpen, onClose }: DesignModalProps) {
           <DialogTitle className="font-headline text-2xl text-primary">{design.title}</DialogTitle>
           <div className="flex items-center space-x-2 text-sm text-muted-foreground pt-1">
             <CalendarDays className="h-4 w-4" />
-            <span>Uploaded: {new Date(design.uploadDate).toLocaleDateString()}</span>
+            {formattedUploadDate ? (
+              <span>Uploaded: {formattedUploadDate}</span>
+            ) : (
+              <span>Loading date...</span>
+            )}
             {design.category && <Badge variant="secondary">{design.category}</Badge>}
           </div>
         </DialogHeader>

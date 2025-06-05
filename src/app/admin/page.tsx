@@ -36,8 +36,8 @@ export default function AdminPage() {
       <div className="container mx-auto px-4 py-12 flex flex-col items-center justify-center min-h-[calc(100vh-10rem)]">
         <Card className="w-full max-w-md text-center shadow-xl bg-card text-card-foreground">
           <CardHeader>
-             <div className="mx-auto bg-muted text-muted-foreground rounded-full p-3 w-fit mb-4">
-                <Lock className="h-8 w-8 animate-pulse text-primary" />
+             <div className="mx-auto bg-primary/10 text-primary rounded-full p-3 w-fit mb-4">
+                <Lock className="h-8 w-8 animate-pulse" />
               </div>
             <CardTitle className="font-headline text-2xl">Loading Admin Panel</CardTitle>
             <CardDescription className="text-muted-foreground">

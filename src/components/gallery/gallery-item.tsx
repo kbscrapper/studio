@@ -1,3 +1,4 @@
+
 "use client";
 
 import type { Design } from '@/types/design';
@@ -29,7 +30,7 @@ export function GalleryItem({ design, onItemClick }: GalleryItemProps) {
                 alt={design.title}
                 layout="fill"
                 objectFit="cover"
-                data-ai-hint={design.aiHint || 'design project image'}
+                data-ai-hint={design.aiHint || 'project image'}
                 className="transition-transform duration-300 group-hover:scale-105"
               />
           ) : (

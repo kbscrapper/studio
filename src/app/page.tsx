@@ -1,3 +1,4 @@
+
 import { Gallery } from '@/components/gallery/gallery';
 import { mockDesigns } from '@/data/mock-designs';
 import { Button } from '@/components/ui/button';
@@ -16,7 +17,7 @@ export default function HomePage() {
           layout="fill"
           objectFit="cover"
           className="absolute inset-0 z-0"
-          data-ai-hint="modern architecture hero"
+          data-ai-hint="modern architecture"
           priority
         />
         <div className="absolute inset-0 bg-black/50 z-10"></div>

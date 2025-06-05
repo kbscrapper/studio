@@ -4,10 +4,10 @@ import { useState } from 'react';
 import type { Design } from '@/types/design';
 import { GalleryItem } from './gallery-item';
 import { DesignModal } from '@/components/modal/design-modal';
-import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Button } from '@/components/ui/button';
-import { Search, XIcon } from 'lucide-react';
+// import { Input } from '@/components/ui/input';
+// import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+// import { Button } from '@/components/ui/button';
+// import { Search, XIcon } from 'lucide-react';
 
 interface GalleryProps {
   designs: Design[];
@@ -16,8 +16,8 @@ interface GalleryProps {
 export function Gallery({ designs: initialDesigns }: GalleryProps) {
   const [selectedDesign, setSelectedDesign] = useState<Design | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  // const [searchTerm, setSearchTerm] = useState('');
+  // const [selectedCategory, setSelectedCategory] = useState<string>('all');
 
   const handleItemClick = (design: Design) => {
     setSelectedDesign(design);
@@ -29,22 +29,25 @@ export function Gallery({ designs: initialDesigns }: GalleryProps) {
     setSelectedDesign(null);
   };
 
-  const categories = ['all', ...new Set(initialDesigns.map(d => d.category).filter(Boolean) as string[])];
+  // const categories = ['all', ...new Set(initialDesigns.map(d => d.category).filter(Boolean) as string[])];
 
-  const filteredDesigns = initialDesigns.filter(design => {
-    const matchesSearchTerm = design.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                              design.description.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = selectedCategory === 'all' || design.category === selectedCategory;
-    return matchesSearchTerm && matchesCategory;
-  });
+  // const filteredDesigns = initialDesigns.filter(design => {
+  //   const matchesSearchTerm = design.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  //                             design.description.toLowerCase().includes(searchTerm.toLowerCase());
+  //   const matchesCategory = selectedCategory === 'all' || design.category === selectedCategory;
+  //   return matchesSearchTerm && matchesCategory;
+  // });
   
-  const clearFilters = () => {
-    setSearchTerm('');
-    setSelectedCategory('all');
-  };
+  // const clearFilters = () => {
+  //   setSearchTerm('');
+  //   setSelectedCategory('all');
+  // };
+  
+  const filteredDesigns = initialDesigns; // For homepage, show all passed designs
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4">
+      {/* Filter UI removed for homepage context
       <div className="mb-8 p-6 bg-card rounded-xl shadow-sm border">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
           <div className="md:col-span-2">
@@ -84,18 +87,19 @@ export function Gallery({ designs: initialDesigns }: GalleryProps) {
             </Button>
         )}
       </div>
+      */}
 
       {filteredDesigns.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
           {filteredDesigns.map((design) => (
             <GalleryItem key={design.id} design={design} onItemClick={handleItemClick} />
           ))}
         </div>
       ) : (
         <div className="text-center py-12">
-          <Search className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
+          {/* <Search className="mx-auto h-12 w-12 text-muted-foreground mb-4" /> */}
           <h3 className="text-xl font-semibold text-foreground">No Designs Found</h3>
-          <p className="text-muted-foreground mt-2">Try adjusting your search or filter criteria.</p>
+          <p className="text-muted-foreground mt-2">Check back later for new projects.</p>
         </div>
       )}
 

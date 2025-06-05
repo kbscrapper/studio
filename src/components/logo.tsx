@@ -1,11 +1,11 @@
-import { Layers } from 'lucide-react';
+import { LayoutGrid } from 'lucide-react';
 import Link from 'next/link';
 
 export function Logo() {
   return (
-    <Link href="/" className="flex items-center space-x-2 text-primary hover:text-primary/90 transition-colors">
-      <Layers className="h-8 w-8" />
-      <span className="font-headline text-2xl font-semibold">DraftPort</span>
+    <Link href="/" className="flex items-center space-x-2 text-primary-foreground hover:text-primary-foreground/90 transition-colors">
+      <LayoutGrid className="h-7 w-7 text-primary" />
+      <span className="font-headline text-xl font-semibold">DesignCraft Studio</span>
     </Link>
   );
 }

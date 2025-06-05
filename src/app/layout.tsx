@@ -5,8 +5,8 @@ import { SiteFooter } from '@/components/layout/site-footer';
 import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
-  title: 'DraftPort - 3D Design & Drafting',
-  description: 'Showcasing innovative 3D designs and drafts.',
+  title: 'DesignCraft Studio - Transforming Visions',
+  description: 'DesignCraft Studio specializes in creating stunning 3D designs and precise drafts.',
 };
 
 export default function RootLayout({

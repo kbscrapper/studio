@@ -15,7 +15,7 @@ interface AIPaletteSuggesterProps {
 // A small, real PNG data URI for testing AI (a 2x2 red square) if design.fileUrl is not a data URI
 // This specific one is used in mockDesigns for ID 3.
 // If another design is picked, we might need a more generic placeholder or a way to convert its image.
-const fallbackImageDataUri = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAAXNSR0IArs4c6QAAABNJREFUGFdjYGBgYPj///8/Aそれは私です予約AAAAAElFTkSuQmCC';
+const fallbackImageDataUri = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAAXNSR0IArs4c6QAAABNJREFUGFdjYGBgYPj///8/AAAAAAElFTkSuQmCC';
 
 
 export function AIPaletteSuggester({ design }: AIPaletteSuggesterProps) {

@@ -1,7 +1,7 @@
 import type { Design } from '@/types/design';
 
 // A small, real PNG data URI for testing AI (a 2x2 red square)
-const sampleImageDataUri = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAAXNSR0IArs4c6QAAABNJREFUGFdjYGBgYPj///8/Aそれは私です予約AAAAAElFTkSuQmCC';
+const sampleImageDataUri = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAAXNSR0IArs4c6QAAABNJREFUGFdjYGBgYPj///8/AAAAAAElFTkSuQmCC';
 
 
 export const mockDesigns: Design[] = [

@@ -16,7 +16,7 @@ import type { Design } from '@/types/design';
 const designFormSchema = z.object({
   title: z.string().min(3, { message: "Title must be at least 3 characters." }),
   description: z.string().min(10, { message: "Description must be at least 10 characters." }),
-  fileUrl: z.string().url({ message: "Please enter a valid URL for the file." }).or(z.literal('')).transform(val => val === '' ? `https://placehold.co/800x600/cccccc/969696.png?text=Placeholder` : val),
+  fileUrl: z.string().url({ message: "Please enter a valid URL for the file." }).or(z.literal('')).transform(val => val === '' ? `https://placehold.co/800x600/374151/9CA3AF.png?text=Placeholder` : val), // Darker placeholder
   fileType: z.enum(['image', 'pdf']),
   thumbnailUrl: z.string().url({ message: "Please enter a valid URL for the thumbnail." }).optional().or(z.literal('')),
   category: z.string().optional(),
@@ -32,8 +32,8 @@ interface DesignFormProps {
   initialData?: Design | null;
 }
 
-const defaultImagePlaceholder = "https://placehold.co/800x600/cccccc/969696.png?text=Placeholder";
-const defaultPdfFileUrl = "placeholder.pdf"; // PDFs usually aren't hotlinked this way, but for mock data
+const defaultImagePlaceholder = "https://placehold.co/800x600/374151/9CA3AF.png?text=Placeholder"; // Darker placeholder
+const defaultPdfFileUrl = "placeholder.pdf";
 
 export function DesignForm({ isOpen, onClose, onSubmit, initialData }: DesignFormProps) {
   const { register, handleSubmit, control, reset, formState: { errors, isSubmitting }, watch } = useForm<DesignFormValues>({
@@ -56,17 +56,17 @@ export function DesignForm({ isOpen, onClose, onSubmit, initialData }: DesignFor
       reset({
         title: initialData.title,
         description: initialData.description,
-        fileUrl: initialData.fileUrl === defaultPdfFileUrl && initialData.fileType === 'pdf' ? '' : initialData.fileUrl, // Clear if default PDF
+        fileUrl: initialData.fileUrl === defaultPdfFileUrl && initialData.fileType === 'pdf' ? '' : initialData.fileUrl,
         fileType: initialData.fileType,
         thumbnailUrl: initialData.thumbnailUrl,
         category: initialData.category,
         aiHint: initialData.aiHint,
       });
     } else {
-      reset({ // Default for new entries
+      reset({
         title: '',
         description: '',
-        fileUrl: '', // User should provide or it defaults on submit
+        fileUrl: '',
         fileType: 'image',
         thumbnailUrl: '',
         category: '',
@@ -80,13 +80,13 @@ export function DesignForm({ isOpen, onClose, onSubmit, initialData }: DesignFor
     if (submissionData.fileType === 'image' && !submissionData.fileUrl) {
       submissionData.fileUrl = defaultImagePlaceholder;
     } else if (submissionData.fileType === 'pdf' && !submissionData.fileUrl) {
-      submissionData.fileUrl = defaultPdfFileUrl; // This would typically be an actual file path/ID
+      submissionData.fileUrl = defaultPdfFileUrl;
     }
     
-    if (submissionData.fileType === 'image' && !submissionData.thumbnailUrl && submissionData.fileUrl) {
-        submissionData.thumbnailUrl = submissionData.fileUrl.replace(/(\/\d+x\d+)/, '/400x300'); // Basic placeholder thumbnail logic
+    if (submissionData.fileType === 'image' && !submissionData.thumbnailUrl && submissionData.fileUrl?.startsWith('https://placehold.co')) {
+        submissionData.thumbnailUrl = submissionData.fileUrl.replace(/(\/\d+x\d+)/, '/400x300');
     } else if (submissionData.fileType === 'pdf' && !submissionData.thumbnailUrl) {
-        submissionData.thumbnailUrl = `https://placehold.co/400x300/EEEEEE/333333.png?text=PDF`;
+        submissionData.thumbnailUrl = `https://placehold.co/400x300/374151/9CA3AF.png?text=PDF`; // Darker placeholder
     }
 
     onSubmit(submissionData);
@@ -95,40 +95,40 @@ export function DesignForm({ isOpen, onClose, onSubmit, initialData }: DesignFor
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => { if (!open) onClose(); }}>
-      <DialogContent className="sm:max-w-2xl max-h-[90vh] flex flex-col">
+      <DialogContent className="sm:max-w-2xl max-h-[90vh] flex flex-col bg-card border-border text-card-foreground">
         <DialogHeader>
-          <DialogTitle className="font-headline text-xl">
+          <DialogTitle className="font-headline text-xl text-primary">
             {initialData ? 'Edit Design' : 'Add New Design'}
           </DialogTitle>
-          <DialogDescription>
+          <DialogDescription className="text-muted-foreground">
             {initialData ? 'Update the details of your design.' : 'Fill in the details for the new design.'}
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit(handleFormSubmit)} className="flex-grow overflow-y-auto space-y-6 p-1 pr-3">
           <div>
-            <Label htmlFor="title">Title</Label>
-            <Input id="title" {...register('title')} placeholder="e.g., Modern Villa Concept" />
+            <Label htmlFor="title" className="text-card-foreground">Title</Label>
+            <Input id="title" {...register('title')} placeholder="e.g., Modern Villa Concept" className="bg-input border-border focus:ring-primary text-foreground"/>
             {errors.title && <p className="text-sm text-destructive mt-1">{errors.title.message}</p>}
           </div>
 
           <div>
-            <Label htmlFor="description">Description</Label>
-            <Textarea id="description" {...register('description')} placeholder="A detailed description of the design..." rows={4} />
+            <Label htmlFor="description" className="text-card-foreground">Description</Label>
+            <Textarea id="description" {...register('description')} placeholder="A detailed description of the design..." rows={4} className="bg-input border-border focus:ring-primary text-foreground"/>
             {errors.description && <p className="text-sm text-destructive mt-1">{errors.description.message}</p>}
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="fileType">File Type</Label>
+              <Label htmlFor="fileType" className="text-card-foreground">File Type</Label>
               <Controller
                 name="fileType"
                 control={control}
                 render={({ field }) => (
                   <Select onValueChange={field.onChange} value={field.value}>
-                    <SelectTrigger id="fileType">
+                    <SelectTrigger id="fileType" className="bg-input border-border focus:ring-primary text-foreground">
                       <SelectValue placeholder="Select file type" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="bg-popover border-border text-popover-foreground">
                       <SelectItem value="image">Image</SelectItem>
                       <SelectItem value="pdf">PDF</SelectItem>
                     </SelectContent>
@@ -138,20 +138,21 @@ export function DesignForm({ isOpen, onClose, onSubmit, initialData }: DesignFor
               {errors.fileType && <p className="text-sm text-destructive mt-1">{errors.fileType.message}</p>}
             </div>
              <div>
-              <Label htmlFor="category">Category</Label>
-              <Input id="category" {...register('category')} placeholder="e.g., Architecture, Product Design" />
+              <Label htmlFor="category" className="text-card-foreground">Category</Label>
+              <Input id="category" {...register('category')} placeholder="e.g., Architecture, Product Design" className="bg-input border-border focus:ring-primary text-foreground"/>
               {errors.category && <p className="text-sm text-destructive mt-1">{errors.category.message}</p>}
             </div>
           </div>
           
           <div>
-            <Label htmlFor="fileUrl">
+            <Label htmlFor="fileUrl" className="text-card-foreground">
               File URL {currentFileType === 'image' ? '(e.g., https://placehold.co/800x600.png)' : '(e.g., placeholder.pdf or link to PDF)'}
             </Label>
             <Input 
               id="fileUrl" 
               {...register('fileUrl')} 
               placeholder={currentFileType === 'image' ? defaultImagePlaceholder : 'Enter PDF URL or leave blank for default'}
+              className="bg-input border-border focus:ring-primary text-foreground"
             />
             {errors.fileUrl && <p className="text-sm text-destructive mt-1">{errors.fileUrl.message}</p>}
             <p className="text-xs text-muted-foreground mt-1">
@@ -161,25 +162,25 @@ export function DesignForm({ isOpen, onClose, onSubmit, initialData }: DesignFor
 
           {currentFileType === 'image' && (
             <div>
-              <Label htmlFor="thumbnailUrl">Thumbnail URL (Optional)</Label>
-              <Input id="thumbnailUrl" {...register('thumbnailUrl')} placeholder="e.g., https://placehold.co/400x300.png" />
+              <Label htmlFor="thumbnailUrl" className="text-card-foreground">Thumbnail URL (Optional)</Label>
+              <Input id="thumbnailUrl" {...register('thumbnailUrl')} placeholder="e.g., https://placehold.co/400x300.png" className="bg-input border-border focus:ring-primary text-foreground"/>
               {errors.thumbnailUrl && <p className="text-sm text-destructive mt-1">{errors.thumbnailUrl.message}</p>}
               <p className="text-xs text-muted-foreground mt-1">If blank, will try to use File URL or a default PDF icon thumbnail.</p>
             </div>
           )}
           
           <div>
-            <Label htmlFor="aiHint">AI Hint (Optional, for image placeholders)</Label>
-            <Input id="aiHint" {...register('aiHint')} placeholder="e.g., modern villa, gear assembly (max 2 words)" />
+            <Label htmlFor="aiHint" className="text-card-foreground">AI Hint (Optional, for image placeholders)</Label>
+            <Input id="aiHint" {...register('aiHint')} placeholder="e.g., modern villa, gear assembly (max 2 words)" className="bg-input border-border focus:ring-primary text-foreground"/>
             {errors.aiHint && <p className="text-sm text-destructive mt-1">{errors.aiHint.message}</p>}
              <p className="text-xs text-muted-foreground mt-1">Used by AI to generate relevant placeholder images if File URL is a placeholder.co link without specific content.</p>
           </div>
           
-          <DialogFooter className="pt-4 mt-auto sticky bottom-0 bg-background pb-1">
+          <DialogFooter className="pt-4 mt-auto sticky bottom-0 bg-card pb-1">
             <DialogClose asChild>
-              <Button type="button" variant="outline" onClick={onClose}>Cancel</Button>
+              <Button type="button" variant="outline" onClick={onClose} className="border-border hover:bg-muted/50 text-foreground">Cancel</Button>
             </DialogClose>
-            <Button type="submit" disabled={isSubmitting}>
+            <Button type="submit" disabled={isSubmitting} className="bg-primary text-primary-foreground hover:bg-primary/90">
               {isSubmitting ? (initialData ? 'Saving...' : 'Adding...') : (initialData ? 'Save Changes' : 'Add Design')}
             </Button>
           </DialogFooter>

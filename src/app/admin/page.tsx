@@ -34,13 +34,13 @@ export default function AdminPage() {
   if (isAuthenticated === undefined) {
     return (
       <div className="container mx-auto px-4 py-12 flex flex-col items-center justify-center min-h-[calc(100vh-10rem)]">
-        <Card className="w-full max-w-md text-center shadow-xl">
+        <Card className="w-full max-w-md text-center shadow-xl bg-card text-card-foreground">
           <CardHeader>
              <div className="mx-auto bg-muted text-muted-foreground rounded-full p-3 w-fit mb-4">
-                <Lock className="h-8 w-8 animate-pulse" />
+                <Lock className="h-8 w-8 animate-pulse text-primary" />
               </div>
             <CardTitle className="font-headline text-2xl">Loading Admin Panel</CardTitle>
-            <CardDescription>
+            <CardDescription className="text-muted-foreground">
               Checking authentication status...
             </CardDescription>
           </CardHeader>
@@ -50,7 +50,7 @@ export default function AdminPage() {
   }
 
   return (
-    <div className="min-h-[calc(100vh-10rem)]">
+    <div className="min-h-[calc(100vh-10rem)] bg-background">
       {isAuthenticated ? (
         <AdminDashboard onLogout={handleLogout} />
       ) : (
